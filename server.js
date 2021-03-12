@@ -84,6 +84,8 @@ function rootHook(msg, reply, next) {
   };
 
   msg.context = contexts[id];
+    reply.deleteMessage(msg);
+
   next();
 }
 bot.all(rootHook);
