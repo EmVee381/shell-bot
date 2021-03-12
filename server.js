@@ -92,6 +92,12 @@ bot.edited.all(rootHook);
 
 // Replies
 bot.message(function (msg, reply, next) {
+   if (msg.context.command && ! /^\/.+/i.exec(msg.text))
+    {
+       msg.context.command.sendInput(msg.text, true);
+         reply.deleteMessage(msg);
+        next();
+    }
   if (msg.reply === undefined || msg.reply.from.id !== this.get("id")) return next();
   if (msg.file)
     return handleDownload(msg, reply);
@@ -99,6 +105,7 @@ bot.message(function (msg, reply, next) {
     return msg.context.editor.handleReply(msg);
   if (!msg.context.command)
     return reply.html("No command is running.");
+ 
   msg.context.command.handleReply(msg);
 });
 
@@ -119,6 +126,7 @@ bot.command("r", function (msg, reply, next) {
 
   next();
 });
+
 
 // Signal sending
 bot.command("cancel", "kill", function (msg, reply, next) {
@@ -144,6 +152,8 @@ bot.command("enter", "type", function (msg, reply, next) {
     return reply.html("No command is running.");
   if (msg.command === "type" && !args) args = " ";
   msg.context.command.sendInput(args, msg.command === "type");
+         reply.deleteMessage(msg);
+
 });
 bot.command("control", function (msg, reply, next) {
   var arg = msg.args(1)[0];
@@ -232,6 +242,8 @@ bot.command("keypad", function (msg, reply, next) {
   } catch (e) {
     reply.html("Couldn't toggle keypad.");
   }
+         reply.deleteMessage(msg);
+
 });
 
 // File upload / download
