@@ -84,8 +84,6 @@ function rootHook(msg, reply, next) {
   };
 
   msg.context = contexts[id];
-    reply.deleteMessage(msg);
-
   next();
 }
 bot.all(rootHook);
@@ -117,6 +115,8 @@ bot.command("r", function (msg, reply, next) {
   // A little hackish, but it does show the power of
   // Botgram's fallthrough system!
   msg.command = msg.context.command ? "enter" : "run";
+       reply.deleteMessage(msg);
+
   next();
 });
 
@@ -153,6 +153,8 @@ bot.command("control", function (msg, reply, next) {
     return reply.html("Use /control &lt;letter&gt; to send Control+letter to the process.");
   var code = arg.toUpperCase().charCodeAt(0) - 0x40;
   msg.context.command.sendInput(String.fromCharCode(code), true);
+  reply.deleteMessage(msg);
+
 });
 bot.command("meta", function (msg, reply, next) {
   var arg = msg.args(1)[0];
@@ -162,6 +164,8 @@ bot.command("meta", function (msg, reply, next) {
     return msg.context.command.toggleMeta();
   msg.context.command.toggleMeta(true);
   msg.context.command.sendInput(arg, true);
+  reply.deleteMessage(msg);
+
 });
 bot.command("end", function (msg, reply, next) {
   if (!msg.context.command)
