@@ -79,7 +79,7 @@ function rootHook(msg, reply, next) {
     cwd: defaultCwd,
     size: {columns: 40, rows: 20},
     silent: true,
-    interactive: false,
+    interactive: true,
     linkPreviews: false,
   };
 
@@ -146,7 +146,7 @@ bot.command("cancel", "kill", function (msg, reply, next) {
 });
 
 // Input sending
-bot.command("enter", "type", function (msg, reply, next) {
+bot.command("e", "type", function (msg, reply, next) {
   var args = msg.args();
   if (!msg.context.command)
     return reply.html("No command is running.");
@@ -155,7 +155,7 @@ bot.command("enter", "type", function (msg, reply, next) {
          reply.deleteMessage(msg);
 
 });
-bot.command("control", function (msg, reply, next) {
+bot.command("c", function (msg, reply, next) {
   var arg = msg.args(1)[0];
   if (!msg.context.command)
     return reply.html("No command is running.");
@@ -234,7 +234,7 @@ bot.command("file", function (msg, reply, next) {
 });
 
 // Keypad
-bot.command("keypad", function (msg, reply, next) {
+bot.command("k", function (msg, reply, next) {
   if (!msg.context.command)
     return reply.html("No command is running.");
   try {
